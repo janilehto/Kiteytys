@@ -2,9 +2,24 @@
 #define POT A5
 #define BUTTON 7
 
+#define LEDON HIGH
+#define LEDOFF LOW
+
+int ledState = LEDOFF;
+
+void toggleLed(){
+  if( ledState == LEDOFF ){
+    ledState = LEDON;
+  }else{
+    ledState = LEDOFF;
+  }
+  digitalWrite( LED, ledState );
+}
+
 void setup()
 {
   pinMode(LED, OUTPUT);
+  digitalWrite(LED, ledState);
   pinMode(BUTTON, INPUT_PULLUP);
   
   Serial.begin(9600);
@@ -27,7 +42,7 @@ bool buttonPressed(){
 void loop()
 {
   if( buttonPressed() ){
-    Serial.println( "Painettu" );
+    toggleLed();
   }
 }
 
