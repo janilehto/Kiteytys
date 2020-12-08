@@ -2,12 +2,20 @@
 void setup()
 {
   pinMode(LED, OUTPUT);
+  Serial.begin(9600);
 }
-#define VIIVE 1000
+#define VIIVE 20
+#define DIMMED 100
+#define BRIGHT 200
+int kirkkaus = DIMMED;
 void loop()
 {
-  digitalWrite(LED, HIGH);
+  analogWrite(LED, kirkkaus);
   delay(VIIVE);
-  digitalWrite(LED, LOW);
-  delay(VIIVE);
+  if( kirkkaus < BRIGHT ){
+  	kirkkaus++;
+  }else{
+    kirkkaus = DIMMED;
+  }
+  Serial.println( kirkkaus );
 }
