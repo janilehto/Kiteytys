@@ -9,15 +9,33 @@ void setup()
 #define VIIVE 20
 #define MAX8BIT 255
 #define MIN8BIT 0
-#define MAX10BIT 1023
-#define MIN10BIT 0
+#define UP 1
+#define DOWN 0
+#define STEP 10
 
+int kirkkaus = 127;
 void dimLed( int level ){
-  int x = map( level, MIN10BIT, MAX10BIT, MIN8BIT, MAX8BIT );
-  analogWrite( LED, x );
+  if( level == UP ){
+    if( kirkkaus < ( MAX8BIT - STEP )){
+    	kirkkaus += STEP; 
+    }
+  }else if( level == DOWN ){
+    if( kirkkaus > STEP ){
+    	kirkkaus -= STEP; 
+    }
+  }
+  analogWrite( LED, kirkkaus );
 }
 
 void loop()
 {
-  dimLed( analogRead( POT ) );
+  if( Serial.available() > 0 ){
+    int x = Serial.read();
+    switch (x) {
+      case 'w': dimLed( UP );
+      break;
+      case 's': dimLed( DOWN );
+      break;
+    }
+  }
 }
