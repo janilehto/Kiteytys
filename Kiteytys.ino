@@ -39,11 +39,28 @@ bool buttonPressed(){
   return false;
 }
 
+unsigned long mennytHetki = 0;
+#define VIIVE 1000
+
+void blink(){
+  unsigned long aikaNyt = millis();
+  if( ( aikaNyt - mennytHetki ) >= VIIVE ){
+    mennytHetki = aikaNyt;
+    toggleLed();
+  }
+}
+
+void toggleState(){
+  Serial.println("START or STOP");
+}
+
 void loop()
 {
   if( buttonPressed() ){
-    toggleLed();
+    toggleState();
   }
+  
+  blink();
 }
 
 
