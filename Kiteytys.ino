@@ -1,41 +1,40 @@
 #define LED 3
 #define POT A5
+#define BUTTON 7
 
 void setup()
 {
   pinMode(LED, OUTPUT);
+  pinMode(BUTTON, INPUT_PULLUP);
+  
   Serial.begin(9600);
 }
-#define VIIVE 20
-#define MAX8BIT 255
-#define MIN8BIT 0
-#define UP 1
-#define DOWN 0
-#define STEP 10
 
-int kirkkaus = 127;
-void dimLed( int level ){
-  if( level == UP ){
-    if( kirkkaus < ( MAX8BIT - STEP )){
-    	kirkkaus += STEP; 
-    }
-  }else if( level == DOWN ){
-    if( kirkkaus > STEP ){
-    	kirkkaus -= STEP; 
-    }
+int count = 0;
+bool buttonPressed(){
+  int x = digitalRead( BUTTON );
+  if( x == LOW ){
+    count++;
+  }else{
+    count=0;
   }
-  analogWrite( LED, kirkkaus );
+  if( count == 1 ){
+    return true;
+  }
+  return false;
 }
 
 void loop()
 {
-  if( Serial.available() > 0 ){
-    int x = Serial.read();
-    switch (x) {
-      case 'w': dimLed( UP );
-      break;
-      case 's': dimLed( DOWN );
-      break;
-    }
+  if( buttonPressed() ){
+    Serial.println( "Painettu" );
   }
 }
+
+
+
+
+
+
+
+
