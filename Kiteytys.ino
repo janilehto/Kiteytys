@@ -40,7 +40,7 @@ bool buttonPressed(){
 }
 
 unsigned long mennytHetki = 0;
-#define VIIVE 1000
+#define VIIVE 200
 
 void blink(){
   unsigned long aikaNyt = millis();
@@ -50,8 +50,13 @@ void blink(){
   }
 }
 
+bool blinkOn=false;
 void toggleState(){
-  Serial.println("START or STOP");
+  if( blinkOn ){
+    blinkOn = false;
+  }else{
+    blinkOn = true;
+  }
 }
 
 void loop()
@@ -59,14 +64,7 @@ void loop()
   if( buttonPressed() ){
     toggleState();
   }
-  
-  blink();
+  if( blinkOn ){
+  	blink();
+  }
 }
-
-
-
-
-
-
-
-
